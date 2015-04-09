@@ -1,4 +1,5 @@
-<?php namespace App;
+<?php namespace App;//la funcion del namespace 
+//es para evitar q haya conflictos de nombres de clases q se llaman igual
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
