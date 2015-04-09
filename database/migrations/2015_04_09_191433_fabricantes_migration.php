@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFabricantesTable extends Migration {
+class FabricantesMigration extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -14,7 +14,13 @@ class CreateFabricantesTable extends Migration {
 	{
 		Schema::create('fabricantes', function(Blueprint $table)
 		{
+			//indicamos los campos de la tabla en MySQL
 			$table->increments('id');
+			$table->string('nombre');
+			$table->string('direccion');
+			$table->string('telefono');
+			//automaticamente añadira created_at y updates_at 
+			//al activar la opcion timestamps
 			$table->timestamps();
 		});
 	}

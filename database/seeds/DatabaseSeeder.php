@@ -13,8 +13,9 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Model::unguard();
+		$this->call('fabricanteSeeder');
+	    $this->call('avionSeeder');
 
-		// $this->call('UserTableSeeder');
 	}
 
 }
