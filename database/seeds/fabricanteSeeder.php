@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 
 //hace uso del modelo fabricante
-use App\Fabricante;
+use App\Fabricante;//una vez q le digo esto ya pdo utilizar la clase fabricante y avion abajo
 
 //usamos el faker q instalamos antes
 use Faker\Factory as Faker;//pongo un alias en vez del metodo estatico
@@ -26,9 +26,11 @@ class fabricanteSeeder extends Seeder {
 			//cuando llamamos al m,etodo create de modelo fabricante
 			//se esta creando una nueva fila en la ytabla fabricante
 			Fabricante::create(
-					['nombre'=>$faker->word(),
-					 'direccion'=>$faker->word(),
-					 'telefono'=>$faker->randomNumber()
+				
+					['nombre'=>$faker->word(),//genera una palabra al azar
+					 'direccion'=>$faker->word(),//""
+					 'telefono'=>$faker->randomNumber()//""
+					//asi creamos registros para la tabla de fabricantes
 						]
 					);
 		}

@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 class WelcomeController extends Controller {
-
+//aqui se definen todos los metodos q va a tener el welcome controller
 	/*
 	|--------------------------------------------------------------------------
 	| Welcome Controller
@@ -33,4 +33,4 @@ class WelcomeController extends Controller {
 		return view('welcome');
 	}
 
-}
+}// en el metodo edit se hara el formulario para editar esos registros

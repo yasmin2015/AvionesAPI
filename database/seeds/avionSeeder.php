@@ -35,6 +35,7 @@ class avionSeeder extends Seeder {
 						'velocidad'=>$faker->randomNumber(),
 						'alcance'=>$faker->randomNumber(),
 						'fabricante_id'=>$faker->numberBetween(1,$cuantos),
+						//un numero al azar entre esas dos tablas
 						
 					]);
 		}

@@ -1,10 +1,9 @@
 <?php
-
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 class FabricantesMigration extends Migration {
-
+//las migrations indica la estructura de las tablas(si es string o asi....)
 	/**
 	 * Run the migrations.
 	 *
