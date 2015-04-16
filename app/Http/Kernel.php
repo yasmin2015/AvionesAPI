@@ -8,14 +8,15 @@ class Kernel extends HttpKernel {
 	 * The application's global HTTP middleware stack.
 	 *
 	 * @var array
-	 */
+	 *///aplicaciones intermedias q se encargan de hacer cosas
+	//el mide...q se encarga d verificar el token
 	protected $middleware = [
 		'Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode',
 		'Illuminate\Cookie\Middleware\EncryptCookies',
 		'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
 		'Illuminate\Session\Middleware\StartSession',
 		'Illuminate\View\Middleware\ShareErrorsFromSession',
-		'App\Http\Middleware\VerifyCsrfToken',
+		//'App\Http\Middleware\VerifyCsrfToken',
 	];
 
 	/**

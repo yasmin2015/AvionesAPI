@@ -1,12 +1,14 @@
-<?php namespace App\Http\Controllers;
+<?php
+
+namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Http\Request;
-
 //cargamos Fabricante
 use App\Fabricante;
+use Response;
+
 class FabricanteController extends Controller {
 
 	/**
@@ -14,15 +16,14 @@ class FabricanteController extends Controller {
 	 *
 	 * @return Response
 	 *///
-	public function index()
-	{
+	public function index() {
 		//return "En el index de Fabricante";
 		//devolvemos un JSON con todos los fabricantes
 		//return Fabricante::all();
 		//hacemos uso del modelo Fabricante pero hay q cargarlo arriba
-		
 		//para devolver un JSON con codigo de respuesta http
-		return response()->json(['status'=>'ok','data'=>Fabricante::all()],200);
+		return response()->json(['status' => 'ok', 'data' => Fabricante::all()], 200);
+		//codigo http q se manda al cliente
 	}
 
 	/**
@@ -31,21 +32,58 @@ class FabricanteController extends Controller {
 	 * @return Response
 	 */
 	/*
-	//no se utiliza pq se usaria para mostrar un formulario de creacion d Fabricantes
-	//y una api rest no hace eso
-	public function create()
-	{
-		//
-	}
+	  //no se utiliza pq se usaria para mostrar un formulario de creacion d Fabricantes
+	  //y una api rest no hace eso
+	  public function create()
+	  {
+	  //
+	  }
 
-	/**
+	  /**
 	 * Store a newly created resource in storage.
 	 *
 	 * @return Response
+	 *//*
+	  public function store(Request $request)
+	  {
+	  //metodo llamado al hacer un POST (insercion en la tabla)
+	  //comprobamos q recibimos todos los campos (datos d la tabla)
+	  //para comprobar un campo en particular pongo input y el nombre del campo
+	  if(!$request->input('nombre')|| !$request->input('direccion') || !$request->input('telefono'))
+	  {
+	  return response()->json(['errors'=>array(['code'=>422,'message'=>"Faltan datos"])],422);
+	  //insertamos datos
+	  $nuevoFabricante=Fabricante::create($request->all());
+
+	  //devolvemos la respuesta http 201 (created)
+	  //+ los datos del nuevo fabricante
+	  //+ una cabecera de location+ cabecera JSON
+	  $respuesta= Response::make(json_encode(['data'=>$nuevoFabricante]),201)->header('Location','http://www.dominio.local/fabricantes/'.$nuevoFabricante->id)->header('Content-Type','application/json');
+
+	  return $respuesta;
+	  }
+	  //NO VA!!!!!!!!!!!!!!!
+
+	 * 
 	 */
-	public function store()
-	{
+
+	public function store(Request $request) {
 		//
+		// Método llamado al hacer un POST.
+		// Comprobamos que recibimos todos los campos.
+		if (!$request->input('nombre') || !$request->input('direccion') || !$request->input('telefono')) 
+		{
+			// NO estamos recibiendo los campos necesarios. Devolvemos error.
+			return response()->json(['errors' => array(['code' => 422, 'message' => 'Faltan datos necesarios para procesar el alta.'])], 422);
+
+		}
+				
+					// Insertamos los datos recibidos en la tabla.
+			$nuevoFabricante = Fabricante::create($request->all());
+
+			// Devolvemos la respuesta Http 201 (Created) + los datos del nuevo fabricante + una cabecera de Location + cabecera JSON
+			$respuesta = Response::make(json_encode(['data' => $nuevoFabricante]), 201)->header('Location', 'http://www.dominio.local/fabricantes/' . $nuevoFabricante->id)->header('Content-Type', 'application/json');
+			return $respuesta;
 	}
 
 	/**
@@ -54,24 +92,22 @@ class FabricanteController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)//se le pasa a un id
+	public function show($id) {//se le pasa a un id
 	//se llama a este metodo cuando pongo fabricantes barra y un id de fabricante
 	//me muestra la informacion de un fabricante
 	//el metodo q se le pasa para buscar a un fabricante es find
 	//y hay q pasarle un json
-	{
 		//corresponde con la ruta /fabricantes({fabricante}
 		//buscamos un fabricante x el ID
-		$fabricante=Fabricante::find($id);
+		$fabricante = Fabricante::find($id);
 		//compramos si ese fabricante existe o no
 		//si hay datos devolvemos un codigo 200 y si no los hay devolvemos un 404
-		if (! $fabricante)
-		{
+		if (!$fabricante) {
 			//se devuelve un array errors con los errores y codigo 404
-			return response()->json(['errors'=>Array(['code'=>404,'message'=>'No se encuentra					un fabricante con ese código'])],404);
+			return response()->json(['errors' => Array(['code' => 404, 'message' => 'No se encuentra					un fabricante con ese código'])], 404);
 		}
 		//devolvemos la informacion encontrada
-		return response()->json(['status'=>'ok','data'=>$fabricante],200);
+		return response()->json(['status' => 'ok', 'data' => $fabricante], 200);
 	}
 
 	//el show es para uno en particular si qro filtrar lo haria en el index
@@ -81,19 +117,21 @@ class FabricanteController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
-	{
-		//
-	}
+	/*
+	  public function edit($id)
+	  {
+	  //
+	  }
 
-	/**
+	  /**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
-	{
+	public function update($id) {//para put y patch
+	// en el put se actualizan los datos y en el patch se actualiza uno de los campos y en los dos se entra x update
+	//asi q tengo q comprobar...
 		//
 	}
 
@@ -103,9 +141,22 @@ class FabricanteController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
-	{
-		//
+	public function destroy($id) {
+		//borrado de un fabricante
+		//ejemplo: /fabricantes/89 por DELETE
+		//COMPROBAMOS si el fabricante existe o no
+		$fabricante = Fabricante::find($id);
+		if (!$fabricante) {
+			//devolvemos error
+			return response()->json(['errors' => array(['code' => 404, "messagge" => "No se encuentra el fabricante"])], 404);
+		}
+		//borramos el fabricante y delvovemos codigo 204
+		//204 sig NO CONTENT
+		//ESTE CODIGO no mustra texto en el body
+		//si qsieramos ver el mensaje devolveriamos un codigo 200
+		$fabricante->delete();
+
+		return response()->json(['code' => 204, "message" => "Se ha eliminado correctamente el fabricante"], 204);
 	}
 
 }
