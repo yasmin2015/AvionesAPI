@@ -202,12 +202,7 @@ class FabricanteController extends Controller {
 		}
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
+	
 	public function destroy($id) {
 		//borrado de un fabricante
 		//ejemplo: /fabricantes/89 por DELETE

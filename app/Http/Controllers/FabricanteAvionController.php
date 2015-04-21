@@ -151,18 +151,18 @@ $respuesta=Response::make(json_encode(['data' => $nuevoFabricante]), 201)->heade
 			}
 		}
 		//metodo put // ACTUALIZACION TOTAL
-		if(!modelo || !longitud || !capacidad || !$velocidad || !$alcance)
+		if(!$modelo || !$longitud || !$capacidad || !$velocidad || !$alcance)
 		{//AQUI PUEDE SER UN VACIO O TEXTO SINO HAY Q PONERLO COMO ARRIBA SI QREMOS Q CONTENGA DATOS
 			//codigo 422 , no se pde procesar pq faltan datos
 			return response()->json(['errors' => array(['code' => 422, "messagge" => "Faltan valores para completar el procesamiento"])], 422);
 		}
 		
 		
-		$avion->$modelo=$modelo;
-		$avion->$longitud=$longitud;
-		$avion->$capacidad=$capacidad;
-		$avion->$alcance=$alcance;
-		$avion->$velocidad=$velocidad;
+		$avion->modelo=$modelo;
+		$avion->longitud=$longitud;
+		$avion->capacidad=$capacidad;
+		$avion->alcance=$alcance;
+		$avion->velocidad=$velocidad;
 		//grabamos los datos del modelo en la tabla
 		$avion->save();
 		
