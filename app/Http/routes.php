@@ -14,12 +14,16 @@
 //controllers programados en controllers
 
 //ruta/fabricantes y todo lo q cuelga de fabricantes
-Route::resource('fabricantes', 'FabricanteController',['except'=>['create']]);
+Route::resource('fabricantes', 'FabricanteController',['except'=>['edit','create']]);
 
 //propiedad q contiene un array de opciones q no quiero q contenga
 
+//Recurso anidado /fabricantes/xx/aviones
+Route::resource('fabricantes.aviones','FabricanteAvionController',['except'=>['edit','create','show']]);
+
 //ruta/aviones y todo lo q cuelga de aviones
-Route::resource('aviones', 'AvionController');
+//El resto de metodos los gestiona FabricanteAvion
+Route::resource('aviones', 'AvionController',['only'=>['index','show']]);
 
 //ruta por defecto //asi se muestra eso cuando recargamos
 Route::get('/', function()

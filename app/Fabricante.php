@@ -18,7 +18,7 @@ class Fabricante extends Model {
 	public function aviones()
     {
 		//la relacion seria un fabricante fabrica muchos aviones
-		return $this->hasMany('App/Avion');
+		return $this->hasMany('App\Avion');
 		//1 objeto de la clase fabricante pde tener muxos objetos de la clase avion
 		
 	}
