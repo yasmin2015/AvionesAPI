@@ -16,7 +16,14 @@ class AvionController extends Controller {
 	 */
 	public function index()
 	{
-		//devuelve toda la lista de aviones
+		$listaAviones=Cache::remember('cacheTodosAviones',5,function()
+		{
+			return Avion::all();
+		});
+		//devuelve la lista de todos los aviones dsde cache
+		return response()->json(['status'=>"ok",'data'=>$listaAviones],200);
+		
+		//devuelve la lista de todos los aviones sin cache
 		return response()->json(['status'=>"ok",'data'=>Avion::all()],200);
 	}
 

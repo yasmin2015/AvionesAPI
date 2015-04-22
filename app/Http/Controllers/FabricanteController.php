@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 //cargamos Fabricante
 use App\Fabricante;
 use Response;
-
+use Iluminate\Support\Facades\Cache;
+//aqui creamos todas las rutas del controladorç
+//entonces aqui le decimos q antes de entrar en las rutas le decimos q ejecute el middleware
+//entonces le decimos q qro ejecutar ese
+//aqui le indico q antes d acceder a esos metodos me diga si el usuario esta autentificado
 class FabricanteController extends Controller {
-
+//constructor
+	public function __construct() 
+	{
+		$this->middleware('auth.basic',['only'=>['store','update','destroy']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -20,10 +28,23 @@ class FabricanteController extends Controller {
 		//return "En el index de Fabricante";
 		//devolvemos un JSON con todos los fabricantes
 		//return Fabricante::all();
+		//la cache se actualizara con los nuevos datos cada 15 seg
+		//cachefabricantes es la clave con la q se almacenaran
+		//los registros obtenidos de Fabricante::all()
+		$fabricantes=Cache::remember('fabricantes',15/60,function()
+		{
+			return Fabricante::all();
+		});
+		
+	
 		//hacemos uso del modelo Fabricante pero hay q cargarlo arriba
+	
 		//para devolver un JSON con codigo de respuesta http
-		return response()->json(['status' => 'ok', 'data' => Fabricante::all()], 200);
+		//return response()->json(['status' => 'ok', 'data' => Fabricante::all()], 200);
 		//codigo http q se manda al cliente
+		
+		//devolvemos el json usando cache
+		return response()->json(['status' => 'ok', 'data' => $fabricantes::all()], 200);
 	}
 
 	/**

@@ -8,9 +8,15 @@ use Illuminate\Http\Request;
 use App\Fabricante;
 use App\Avion;
 use Response;
+use Iluminate\Support\Facades\Cache;
 
 class FabricanteAvionController extends Controller {
 
+	
+	public function __construct() 
+	{
+		$this->middleware('auth.basic',['only'=>['store','update','destroy']]);
+	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -25,7 +31,15 @@ class FabricanteAvionController extends Controller {
 		{
 		return response()->json(['errors' => array(['code' => 404, "messagge" => "No se encuentra el fabricante"])], 404);
 		}
-		return response()->json(['status'=>'ok','data'=>$fabricante->aviones()->get()],200);
+		$listaAviones=Cache::remember('cacheaviones',1,function()
+		{
+			return $fabricante->aviones()->get();
+		});
+		//respuesta con cache
+		return response()->json(['status'=>'ok','data'=>$listaAviones],200);
+		
+		//respuesta sin cache
+		return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
 		//otra forma
 		//return response()->json(['status'=>'ok','data'=>$fabricante->aviones],200);
 	}
